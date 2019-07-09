@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="UTF-8">
+   <title>title</title>
+ </head>
+ <body>
+  <label for="redirectFrom">redirect From:</label>
+  <input id="redirectFrom" type="text"/>
+  <label for="redirectTo">redirect To:</label>
+  <input id="redirectTo" type="text"/>
+  <input id="submit" type="submit">
+  <div id="divID">
+  <%redirect.forEach((a)=>{ %>
+    <p>redirectFrom: <a href="/route/<%=a.redirectFrom%>"><%=a.redirectFrom%></a> redirectTo: <%=a.redirectTo%> </p>
+  <%}) %>
+  </div>
+ </body>
+ <script type="text/javascript">
+   document.addEventListener('DOMContentLoaded', ()=>{
+
+     const redirectToInput = document.getElementById('redirectTo')
+     const redirectFromInput = document.getElementById('redirectFrom')
+     const submit = document.getElementById('submit')
+     submit.addEventListener("click",()=>{
+       console.log(redirectToInput.value)
+       console.log(redirectFromInput.value)
+       const data = {redirectTo:redirectToInput.value,redirectFrom:redirectFromInput.value}
+       const  postPram = {
+          headers: { "Content-Type": "application/json" },
+          body:JSON.stringify(data),
+          method:"POST"
+       }
+       fetch("/route",postPram).then(data=> data.json()).then(j=>{
+          location.reload();
+        })
+     })
+   })
+ </script>
+</html>
